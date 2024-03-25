@@ -6,7 +6,7 @@
       "strict": true,
       "esModuleInterop": true
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "hold/controllers/register.controller.ts", "hold/controllers", "hold/controllers", "hold/controllers", "src/services"],
     "exclude": ["node_modules"]
   }
   
