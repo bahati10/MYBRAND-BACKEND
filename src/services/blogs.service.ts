@@ -42,6 +42,24 @@ export class blogService {
         }
     }
 
+    async addComment(blogId: string, commentData: any, username: string) {
+        try {
+            const blog = await Blog.findById(blogId);
+            if (!blog) {
+                throw new Error("Blog not found");
+            }
+            // Add the username to the comment data
+            commentData.username = username;
+            blog.comments.push(commentData);
+            const updatedBlog = await blog.save();
+            return updatedBlog;
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    }
+    
+    
+
     //update a blog
     async updateBlog(id: string, data: any) {
         try {
