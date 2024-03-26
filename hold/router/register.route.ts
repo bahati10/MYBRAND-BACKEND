@@ -1,5 +1,6 @@
 import express from 'express'
-import { UserController } from '../controllers/register.controller.js'
+import { UserController } from '../../src/controllers/user.controller'
+UserController
 UserController
 
 

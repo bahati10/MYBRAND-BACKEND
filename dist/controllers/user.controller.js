@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
-import { User, UserschemaValidate } from '../models/register.model.js';
+import { User, UserschemaValidate } from '../models/user.model.js';
 import { userServices } from '../services/users.service.js';
+import jwt from 'jsonwebtoken';
 class userController {
     constructor() {
         //add user controller
@@ -50,11 +51,8 @@ class userController {
                     res.status(401).json({ message: user });
                 }
                 else {
-                    // const token = jwt.sign(
-                    //     { userId: user._id, email: user.email, username: user.username }, process.env.JWT_SECRET || '',
-                    //     { expiresIn: process.env.EXPIRATION_TIME } 
-                    // );
-                    res.status(200).json({ user });
+                    const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.JWT_SECRET || '', { expiresIn: process.env.EXPIRATION_TIME });
+                    res.status(200).json({ message: "Logged in succesfully", token });
                 }
             }
             catch (error) {

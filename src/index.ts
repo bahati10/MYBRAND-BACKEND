@@ -1,7 +1,8 @@
 import express from 'express'
 import { db } from './config/db.config.js'
 import dotenv from "dotenv";
-import { usersRouter } from './router/register.route.js';
+import { usersRouter } from './router/user.route.js';
+import { blogsRouter } from './router/blog.route.js';
 
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.urlencoded({extended: true}))
 
 //routes
 app.use("/api", usersRouter)
+app.use("/api", blogsRouter)
 
 //db connection then server connection
 db.then(() => {
