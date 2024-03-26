@@ -12,7 +12,6 @@ export interface DecodedUser {
 export const userLoginMiddleware = (req: CustomRequest, res: Response, next: NextFunction) => {
     const token = req.header('Authorization')?.replace('Bearer ', ''); 
 
-    // console.log('Received Token:', token);
 
     if (!token) {
         return res.status(401).json({ message: 'You are not Authorised' });
@@ -20,7 +19,6 @@ export const userLoginMiddleware = (req: CustomRequest, res: Response, next: Nex
 
     try {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET || '') as DecodedUser; 
-        // console.log('Decoded Token:', decodedToken);
         req.userData = decodedToken;
         next();
     } catch (error) {

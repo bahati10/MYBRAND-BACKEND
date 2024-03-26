@@ -6,7 +6,6 @@ export const BlogschemaValidate = Joi.object({
     image: Joi.string().required(),
     title: Joi.string().required(),
     subtitle: Joi.string().required(),
-    author: Joi.string(),
     content: Joi.string().required(),
 })
 
@@ -41,7 +40,7 @@ const blogSchema = new Schema<IBlogs>({
     },
     author: {
         type: String,
-        default: ''
+        default: 'Bahati Yves'
     },
     content: {
         type: String,

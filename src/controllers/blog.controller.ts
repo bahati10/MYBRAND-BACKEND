@@ -2,6 +2,7 @@
 import { Request, Response } from 'express'
 import { Blog, BlogschemaValidate } from '../models/blog.model.js'
 import { blogServices } from '../services/blogs.service.js'
+import { CustomRequest } from '../controllers/user.interface.js';
 
 class blogController {
     //add blog controller
@@ -25,12 +26,31 @@ class blogController {
         
     }
 
+addComment = async (req: CustomRequest, res: Response) => {
+    const id = req.params.id;
+    const { content } = req.body;
+    if (req.userData && typeof req.userData === 'object' && 'username' in req.userData) {
+        const { username } = req.userData;
+
+        try {
+            const updatedBlog = await blogServices.addComment(id, { content }, username);
+            res.json({ message: "Comment added successfully", blog: updatedBlog });
+        } catch (error: any) {
+            res.status(500).json({ message: "Error adding comment", error: error.message });
+        }
+    } else {
+        res.status(401).json({ message: 'Invalid user data' });
+    }
+};
+
+    
+    
+
     //get all blogs
     getBlogs = async (req: Request, res: Response) => {
         const blogs = await blogServices.getBlogs()
         res.json({ message: "Blogs retrieved successfully : ", blogs })
     }
-
 
     //get a single blog
     getABlog = async (req: Request, res: Response) => {

@@ -6,7 +6,10 @@ import { BlogController } from '../controllers/blog.controller.js'
 export const blogsRouter = express.Router()
 
 //add a blog
-blogsRouter.post("/addblog", BlogController.addblog)
+blogsRouter.post("/addblog", userLoginMiddleware, BlogController.addblog)
+
+// Add comment to a blog
+blogsRouter.post("/blog/:id/comment", userLoginMiddleware, BlogController.addComment);
 
 //get all blogs
 blogsRouter.get("/blog" , BlogController.getBlogs)
