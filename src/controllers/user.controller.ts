@@ -1,8 +1,9 @@
 //import modules
 import { Request, Response } from 'express'
 import bcrypt from 'bcryptjs';
-import { User, UserschemaValidate } from '../models/register.model.js';
+import { User, UserschemaValidate } from '../models/user.model.js';
 import { userServices } from '../services/users.service.js';
+import jwt from 'jsonwebtoken';
 
 class userController {
     //add user controller
@@ -54,23 +55,23 @@ class userController {
 
     // Login a user
     loginUser = async (req: Request, res: Response) => {
-    try {
-        const { email, password } = req.body;
-        const user = await userServices.loginUser(email, password);
-        if (typeof user === 'string') {
-            res.status(401).json({ message: user });
-        } else {
-            // const token = jwt.sign(
-            //     { userId: user._id, email: user.email, username: user.username }, process.env.JWT_SECRET || '',
-            //     { expiresIn: process.env.EXPIRATION_TIME } 
-
-            // );
-            res.status(200).json({ user });
+        try {
+            const { email, password } = req.body;
+            const user = await userServices.loginUser(email, password);
+            if (typeof user === 'string') {
+                res.status(401).json({ message: user });
+            } else {
+                const token = jwt.sign(
+                    { userId: user._id, email: user.email, username: user.username }, process.env.JWT_SECRET || '',
+                    { expiresIn: process.env.EXPIRATION_TIME } 
+    
+                );
+                res.status(200).json({ message: "Logged in succesfully", token });
+            }
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
         }
-    } catch (error: any) {
-        res.status(500).json({ message: error.message });
-    }
-};
+    };
     
 
     //get all users
