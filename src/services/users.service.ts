@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import dotenv from "dotenv";
-import { User } from '../models/register.model.js';
+import { User } from '../models/user.model.js';
 
 dotenv.config();
 
@@ -25,6 +25,11 @@ export class userService {
 
         // Login a user
     async loginUser(email: string, password: string) {
+
+        if(!email || !password){
+            return 'Please fill all inputs provided'
+        }
+
         try {
             const user = await User.findOne({ email });
             if (!user) {

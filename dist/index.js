@@ -1,7 +1,7 @@
 import express from 'express';
 import { db } from './config/db.config.js';
 import dotenv from "dotenv";
-import { usersRouter } from './router/register.route.js';
+import { usersRouter } from './router/user.route.js';
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
