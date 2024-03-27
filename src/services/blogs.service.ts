@@ -74,7 +74,7 @@ export class blogService {
         }
     }
 
-    //delete a toblogdo by using the find by id and delete 
+    //delete a blog by using the find by id and delete 
     async deleteBlog(id: string) {
         try {
             const blog = await Blog.findByIdAndDelete(id)

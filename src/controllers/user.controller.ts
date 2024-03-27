@@ -38,7 +38,7 @@ class userController {
         }
 
         if (existingUsername) {
-            return res.status(400).json({ error: 'Username is already taken' });
+            return res.status(400).json({ error: 'Username already exists' });
         }
     
         try {

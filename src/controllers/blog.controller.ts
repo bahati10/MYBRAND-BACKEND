@@ -2,7 +2,7 @@
 import { Request, Response } from 'express'
 import { Blog, BlogschemaValidate } from '../models/blog.model.js'
 import { blogServices } from '../services/blogs.service.js'
-import { CustomRequest } from '../controllers/user.interface.js';
+import { CustomRequest } from './user.interface.js';
 
 class blogController {
     //add blog controller
@@ -64,7 +64,7 @@ addComment = async (req: CustomRequest, res: Response) => {
     updateBlog = async (req: Request, res: Response) => {
         const id = req.params.id
        const blog = await blogServices.updateBlog(id, req.body)  
-        res.json({ message: "Blog update successfully", blog })
+        res.json({ message: "Blog updated successfully", blog })
     }
 
 
@@ -72,10 +72,11 @@ addComment = async (req: CustomRequest, res: Response) => {
     deleteBlog = async (req: Request, res: Response) => {
         const id = req.params.id
         await blogServices.deleteBlog(id)
-        res.json({ message: 'Blog with deleted successuly' })
+        res.json({ message: 'Blog Deleted successfully' })
     }
 
 }
 
 //export class
 export const BlogController = new blogController()
+
