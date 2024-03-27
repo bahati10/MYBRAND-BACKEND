@@ -53,6 +53,24 @@ export class blogService {
             throw new Error(error.message);
         }
     }
+    async likeBlog(blogId, userId) {
+        try {
+            const blog = await Blog.findById(blogId);
+            if (!blog) {
+                throw new Error('Blog not found');
+            }
+            if (blog.likes.includes(userId)) {
+                throw new Error('You already liked this blog');
+            }
+            blog.likes.push(userId);
+            const updatedBlog = await blog.save();
+            return updatedBlog;
+        }
+        catch (error) {
+            console.error('Error liking blog:', error);
+            throw new Error('Failed to like blog');
+        }
+    }
     //update a blog
     async updateBlog(id, data) {
         try {

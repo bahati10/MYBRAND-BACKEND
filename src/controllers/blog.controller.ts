@@ -26,22 +26,60 @@ class blogController {
         
     }
 
-addComment = async (req: CustomRequest, res: Response) => {
-    const id = req.params.id;
-    const { content } = req.body;
-    if (req.userData && typeof req.userData === 'object' && 'username' in req.userData) {
-        const { username } = req.userData;
+    addComment = async (req: CustomRequest, res: Response) => {
+        const id = req.params.id;
+        const { content } = req.body;
+        const userName = req.userData?.username;
 
-        try {
-            const updatedBlog = await blogServices.addComment(id, { content }, username);
-            res.json({ message: "Comment added successfully", blog: updatedBlog });
-        } catch (error: any) {
-            res.status(500).json({ message: "Error adding comment", error: error.message });
+        if (userName && typeof userName === 'string') {
+
+            try {
+                const updatedBlog = await blogServices.addComment(id, { user: userName, content }, userName);
+                res.json({ message: "Comment added successfully", blog: updatedBlog });
+            } catch (error: any) {
+                res.status(500).json({ message: "Error adding comment", error: error.message });
+            }
+        } else {
+            res.status(401).json({ message: 'Invalid user data' });
         }
-    } else {
-        res.status(401).json({ message: 'Invalid user data' });
-    }
-};
+    };
+
+
+    // Like a blog
+    likeBlog = async (req: CustomRequest, res: Response) => {
+        const id = req.params.id;
+        const userName = req.userData?.username;
+    
+        if (!userName) {
+            return res.status(401).json({ message: 'User not available' });
+        }
+    
+        try {
+            const blog = await Blog.findById(id);
+            if (!blog) {
+                return res.status(404).json({ message: 'Blog not found' });
+            }
+    
+            if (userName && typeof userName === 'string' && !blog.likes.includes(userName)) {
+                blog.likes.push(userName);
+                await blog.save();
+                return res.status(200).json({ message: 'Blog liked successfully', blog });
+            } else {
+                const userIndex = blog.likes.indexOf(userName);
+                if (userIndex !== -1) {
+                    blog.likes.splice(userIndex, 1); // Remove the like
+                    await blog.save();
+                    return res.status(200).json({ message: 'Blog like removed successfully', blog });
+                }
+                // return res.status(400).json({ message: 'You already liked this blog or user ID is invalid' });
+            }
+        } catch (error) {
+            console.error('Error liking blog:', error);
+            return res.status(500).json({ message: 'Error liking blog' });
+        }
+    };
+    
+
 
     
     

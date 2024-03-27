@@ -81,7 +81,7 @@ class userController {
         this.deleteUser = async (req, res) => {
             const id = req.params.id;
             await userServices.deleteUser(id);
-            res.json({ msg: 'User deleted successuly' });
+            res.json({ msg: 'User deleted successfully' });
         };
     }
 }

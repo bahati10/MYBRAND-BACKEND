@@ -6,6 +6,8 @@ export const blogsRouter = express.Router();
 blogsRouter.post("/addblog", userLoginMiddleware, BlogController.addblog);
 // Add comment to a blog
 blogsRouter.post("/blog/:id/comment", userLoginMiddleware, BlogController.addComment);
+// Like to a blog
+blogsRouter.post("/blog/:id/like", userLoginMiddleware, BlogController.likeBlog);
 //get all blogs
 blogsRouter.get("/blog", BlogController.getBlogs);
 //get single blog
