@@ -3,13 +3,11 @@ import { userLoginMiddleware } from '../middleware/userlogin.middleware.js';
 import { BlogController } from '../controllers/blog.controller.js';
 export const blogsRouter = express.Router();
 //add a blog
-<<<<<<< HEAD
-blogsRouter.post("/addblog", BlogController.addblog);
-=======
 blogsRouter.post("/addblog", userLoginMiddleware, BlogController.addblog);
 // Add comment to a blog
 blogsRouter.post("/blog/:id/comment", userLoginMiddleware, BlogController.addComment);
->>>>>>> 048f20c (Blog commenting)
+// Like to a blog
+blogsRouter.post("/blog/:id/like", userLoginMiddleware, BlogController.likeBlog);
 //get all blogs
 blogsRouter.get("/blog", BlogController.getBlogs);
 //get single blog

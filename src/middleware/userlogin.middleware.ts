@@ -19,6 +19,10 @@ export const userLoginMiddleware = (req: CustomRequest, res: Response, next: Nex
 
     try {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET || '') as DecodedUser; 
+        
+        if (!decodedToken.userId) {
+            throw new Error('UserId not found in decoded token');
+        }
         req.userData = decodedToken;
         next();
     } catch (error) {

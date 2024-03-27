@@ -30,7 +30,7 @@ class userController {
                 return res.status(400).json({ error: 'Email already used' });
             }
             if (existingUsername) {
-                return res.status(400).json({ error: 'Username is already taken' });
+                return res.status(400).json({ error: 'Username already exists' });
             }
             try {
                 const hashedPassword = await bcrypt.hash(value.password, 10);
@@ -81,7 +81,7 @@ class userController {
         this.deleteUser = async (req, res) => {
             const id = req.params.id;
             await userServices.deleteUser(id);
-            res.json({ msg: 'User deleted successuly' });
+            res.json({ msg: 'User deleted successfully' });
         };
     }
 }

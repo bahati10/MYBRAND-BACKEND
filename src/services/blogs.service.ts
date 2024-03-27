@@ -58,6 +58,23 @@ export class blogService {
         }
     }
     
+    async likeBlog(blogId: string, userId: string) {
+        try {
+            const blog = await Blog.findById(blogId);
+            if (!blog) {
+                throw new Error('Blog not found');
+            }
+            if (blog.likes.includes(userId)) {
+                throw new Error('You already liked this blog');
+            }
+            blog.likes.push(userId);
+            const updatedBlog = await blog.save();
+            return updatedBlog;
+        } catch (error) {
+            console.error('Error liking blog:', error);
+            throw new Error('Failed to like blog');
+        }
+    }
     
 
     //update a blog
@@ -74,7 +91,7 @@ export class blogService {
         }
     }
 
-    //delete a toblogdo by using the find by id and delete 
+    //delete a blog by using the find by id and delete 
     async deleteBlog(id: string) {
         try {
             const blog = await Blog.findByIdAndDelete(id)
