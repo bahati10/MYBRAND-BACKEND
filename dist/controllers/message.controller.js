@@ -1,9 +1,18 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import { messageServices } from '../services/message.service.js';
 import { MessageschemaValidate } from '../models/message.model.js';
 class messageController {
     constructor() {
         //add message controller
-        this.sendmessage = async (req, res) => {
+        this.sendmessage = (req, res) => __awaiter(this, void 0, void 0, function* () {
             //data to be saved in database
             const data = {
                 firstname: req.body.firstname,
@@ -16,28 +25,28 @@ class messageController {
                 res.json({ message: error });
             }
             else {
-                const themessage = await messageServices.sendMessage(value);
+                const themessage = yield messageServices.sendMessage(value);
                 res.status(201).json({ message: "Message Sent successfully: ", themessage });
             }
-        };
+        });
         //get all messages
-        this.getMessages = async (req, res) => {
-            const theMessages = await messageServices.getMessages();
+        this.getMessages = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const theMessages = yield messageServices.getMessages();
             res.json({ message: "Messages Retrieved successfully : ", theMessages });
-        };
+        });
         //get a single message
-        this.getAMessage = async (req, res) => {
+        this.getAMessage = (req, res) => __awaiter(this, void 0, void 0, function* () {
             //get id from the parameter
             const id = req.params.id;
-            const theMessage = await messageServices.getMessage(id);
+            const theMessage = yield messageServices.getMessage(id);
             res.json({ msg: "Message Retrieved successfully", theMessage });
-        };
+        });
         //delete a message
-        this.deleteMessage = async (req, res) => {
+        this.deleteMessage = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const id = req.params.id;
-            await messageServices.deleteMessage(id);
+            yield messageServices.deleteMessage(id);
             res.json({ message: 'Message Deleted successfully' });
-        };
+        });
     }
 }
 //export class

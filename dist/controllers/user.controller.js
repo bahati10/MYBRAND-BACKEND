@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import bcrypt from 'bcryptjs';
 import { User, UserschemaValidate } from '../models/user.model.js';
 import { userServices } from '../services/users.service.js';
@@ -5,7 +14,7 @@ import jwt from 'jsonwebtoken';
 class userController {
     constructor() {
         //add user controller
-        this.adduser = async (req, res) => {
+        this.adduser = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const data = {
                 names: req.body.names,
                 username: req.body.username,
@@ -14,7 +23,7 @@ class userController {
             };
             const saltRounds = 10;
             try {
-                const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+                const hashedPassword = yield bcrypt.hash(req.body.password, saltRounds);
                 req.body.password = hashedPassword;
             }
             catch (error) {
@@ -24,8 +33,8 @@ class userController {
             if (error) {
                 return res.status(400).json({ error: error.message });
             }
-            const existingEmail = await User.findOne({ email: value.email });
-            const existingUsername = await User.findOne({ username: value.username });
+            const existingEmail = yield User.findOne({ email: value.email });
+            const existingUsername = yield User.findOne({ username: value.username });
             if (existingEmail) {
                 return res.status(400).json({ error: 'Email already used' });
             }
@@ -33,20 +42,20 @@ class userController {
                 return res.status(400).json({ error: 'Username already exists' });
             }
             try {
-                const hashedPassword = await bcrypt.hash(value.password, 10);
-                const newUser = await userServices.createUser({ ...value, password: hashedPassword });
+                const hashedPassword = yield bcrypt.hash(value.password, 10);
+                const newUser = yield userServices.createUser(Object.assign(Object.assign({}, value), { password: hashedPassword }));
                 return res.status(201).json({ message: 'User created successfully' });
             }
             catch (error) {
                 console.error('Error creating user:', error);
                 return res.status(500).json({ message: 'Failed to create user' });
             }
-        };
+        });
         // Login a user
-        this.loginUser = async (req, res) => {
+        this.loginUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { email, password } = req.body;
-                const user = await userServices.loginUser(email, password);
+                const user = yield userServices.loginUser(email, password);
                 if (typeof user === 'string') {
                     res.status(401).json({ message: user });
                 }
@@ -58,31 +67,31 @@ class userController {
             catch (error) {
                 res.status(500).json({ message: error.message });
             }
-        };
+        });
         //get all users
-        this.getUsers = async (req, res) => {
-            const users = await userServices.getUsers();
+        this.getUsers = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const users = yield userServices.getUsers();
             res.json({ msg: users });
-        };
+        });
         //get a single user
-        this.getAUser = async (req, res) => {
+        this.getAUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
             //get id from the parameter
             const id = req.params.id;
-            const user = await userServices.getUser(id);
+            const user = yield userServices.getUser(id);
             res.json({ message: `User with id ${id} retrieved`, user });
-        };
+        });
         //update user
-        this.updateUser = async (req, res) => {
+        this.updateUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const id = req.params.id;
-            const user = await userServices.updateUser(id, req.body);
+            const user = yield userServices.updateUser(id, req.body);
             res.json({ msg: user });
-        };
+        });
         //delete a user
-        this.deleteUser = async (req, res) => {
+        this.deleteUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const id = req.params.id;
-            await userServices.deleteUser(id);
+            yield userServices.deleteUser(id);
             res.json({ msg: 'User deleted successfully' });
-        };
+        });
     }
 }
 //export class
