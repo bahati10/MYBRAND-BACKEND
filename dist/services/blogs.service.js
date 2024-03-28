@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 //import module
 import { Blog } from "../models/blog.model.js";
 export class blogService {
@@ -5,96 +14,110 @@ export class blogService {
         throw new Error('Method not implemented.');
     }
     //create a blog
-    async createBlog(data) {
-        try {
-            const newBlog = await Blog.create(data);
-            return newBlog;
-        }
-        catch (error) {
-            console.log(error);
-        }
+    createBlog(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const newBlog = yield Blog.create(data);
+                return newBlog;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
     //get all blogs
-    async getBlogs() {
-        try {
-            const blogs = await Blog.find({});
-            return blogs;
-        }
-        catch (error) {
-            console.log(error);
-        }
+    getBlogs() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const blogs = yield Blog.find({});
+                return blogs;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
     //get a single blog
-    async getBlog(id) {
-        try {
-            const blog = await Blog.findById({ _id: id });
-            if (!blog) {
-                return 'blog not available';
+    getBlog(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const blog = yield Blog.findById({ _id: id });
+                if (!blog) {
+                    return 'blog not available';
+                }
+                return blog;
             }
-            return blog;
-        }
-        catch (error) {
-            console.log(error);
-        }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
-    async addComment(blogId, commentData, username) {
-        try {
-            const blog = await Blog.findById(blogId);
-            if (!blog) {
-                throw new Error("Blog not found");
+    addComment(blogId, commentData, username) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const blog = yield Blog.findById(blogId);
+                if (!blog) {
+                    throw new Error("Blog not found");
+                }
+                // Add the username to the comment data
+                commentData.username = username;
+                blog.comments.push(commentData);
+                const updatedBlog = yield blog.save();
+                return updatedBlog;
             }
-            // Add the username to the comment data
-            commentData.username = username;
-            blog.comments.push(commentData);
-            const updatedBlog = await blog.save();
-            return updatedBlog;
-        }
-        catch (error) {
-            throw new Error(error.message);
-        }
+            catch (error) {
+                throw new Error(error.message);
+            }
+        });
     }
-    async likeBlog(blogId, userId) {
-        try {
-            const blog = await Blog.findById(blogId);
-            if (!blog) {
-                throw new Error('Blog not found');
+    likeBlog(blogId, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const blog = yield Blog.findById(blogId);
+                if (!blog) {
+                    throw new Error('Blog not found');
+                }
+                if (blog.likes.includes(userId)) {
+                    throw new Error('You already liked this blog');
+                }
+                blog.likes.push(userId);
+                const updatedBlog = yield blog.save();
+                return updatedBlog;
             }
-            if (blog.likes.includes(userId)) {
-                throw new Error('You already liked this blog');
+            catch (error) {
+                console.error('Error liking blog:', error);
+                throw new Error('Failed to like blog');
             }
-            blog.likes.push(userId);
-            const updatedBlog = await blog.save();
-            return updatedBlog;
-        }
-        catch (error) {
-            console.error('Error liking blog:', error);
-            throw new Error('Failed to like blog');
-        }
+        });
     }
     //update a blog
-    async updateBlog(id, data) {
-        try {
-            const blogz = await Blog.findByIdAndUpdate({ _id: id }, data, { new: true });
-            if (!blogz) {
-                return "blog not available";
+    updateBlog(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const blogz = yield Blog.findByIdAndUpdate({ _id: id }, data, { new: true });
+                if (!blogz) {
+                    return "blog not available";
+                }
+                return blogz;
             }
-            return blogz;
-        }
-        catch (error) {
-            console.log(error);
-        }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
     //delete a blog by using the find by id and delete 
-    async deleteBlog(id) {
-        try {
-            const blog = await Blog.findByIdAndDelete(id);
-            if (!blog) {
-                return 'blog not available';
+    deleteBlog(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const blog = yield Blog.findByIdAndDelete(id);
+                if (!blog) {
+                    return 'blog not available';
+                }
             }
-        }
-        catch (error) {
-            console.log(error);
-        }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
 }
 //export the class

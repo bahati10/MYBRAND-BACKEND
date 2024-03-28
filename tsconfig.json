@@ -1,12 +1,13 @@
 {
     "compilerOptions": {
-      "target": "ES2020",
+      "target": "ES6",
       "module": "NodeNext",
       "outDir": "dist",
       "strict": true,
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true
     },
-    "include": ["src/**/*", "hold/controllers/register.controller.ts", "hold/controllers", "hold/controllers", "hold/controllers", "src/services"],
+    "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]
   }
   
