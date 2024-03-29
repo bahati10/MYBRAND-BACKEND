@@ -33,10 +33,10 @@ class blogController {
             var _a;
             const id = req.params.id;
             const { content } = req.body;
-            const userName = (_a = req.userData) === null || _a === void 0 ? void 0 : _a.username;
-            if (userName && typeof userName === 'string') {
+            const firstName = (_a = req.userData) === null || _a === void 0 ? void 0 : _a.firstname;
+            if (firstName && typeof firstName === 'string') {
                 try {
-                    const updatedBlog = yield blogServices.addComment(id, { user: userName, content }, userName);
+                    const updatedBlog = yield blogServices.addComment(id, { user: firstName, content }, firstName);
                     res.json({ message: "Comment added successfully", blog: updatedBlog });
                 }
                 catch (error) {
@@ -51,8 +51,8 @@ class blogController {
         this.likeBlog = (req, res) => __awaiter(this, void 0, void 0, function* () {
             var _b;
             const id = req.params.id;
-            const userName = (_b = req.userData) === null || _b === void 0 ? void 0 : _b.username;
-            if (!userName) {
+            const firstName = (_b = req.userData) === null || _b === void 0 ? void 0 : _b.firstname;
+            if (!firstName) {
                 return res.status(401).json({ message: 'User not available' });
             }
             try {
@@ -60,13 +60,13 @@ class blogController {
                 if (!blog) {
                     return res.status(404).json({ message: 'Blog not found' });
                 }
-                if (userName && typeof userName === 'string' && !blog.likes.includes(userName)) {
-                    blog.likes.push(userName);
+                if (firstName && typeof firstName === 'string' && !blog.likes.includes(firstName)) {
+                    blog.likes.push(firstName);
                     yield blog.save();
                     return res.status(200).json({ message: 'Blog liked successfully', blog });
                 }
                 else {
-                    const userIndex = blog.likes.indexOf(userName);
+                    const userIndex = blog.likes.indexOf(firstName);
                     if (userIndex !== -1) {
                         blog.likes.splice(userIndex, 1); // Remove the like
                         yield blog.save();

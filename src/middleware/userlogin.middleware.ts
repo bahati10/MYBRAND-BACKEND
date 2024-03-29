@@ -5,7 +5,7 @@ import { CustomRequest } from '../controllers/user.interface.js';
 export interface DecodedUser {
     userId: string;
     email: string;
-    username: string;
+    firstname: string;
 }
 
 

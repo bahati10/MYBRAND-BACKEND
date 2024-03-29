@@ -29,12 +29,12 @@ class blogController {
     addComment = async (req: CustomRequest, res: Response) => {
         const id = req.params.id;
         const { content } = req.body;
-        const userName = req.userData?.username;
+        const firstName = req.userData?.firstname;
 
-        if (userName && typeof userName === 'string') {
+        if (firstName && typeof firstName === 'string') {
 
             try {
-                const updatedBlog = await blogServices.addComment(id, { user: userName, content }, userName);
+                const updatedBlog = await blogServices.addComment(id, { user: firstName, content }, firstName);
                 res.json({ message: "Comment added successfully", blog: updatedBlog });
             } catch (error: any) {
                 res.status(500).json({ message: "Error adding comment", error: error.message });
@@ -48,9 +48,9 @@ class blogController {
     // Like a blog
     likeBlog = async (req: CustomRequest, res: Response) => {
         const id = req.params.id;
-        const userName = req.userData?.username;
+        const firstName = req.userData?.firstname;
     
-        if (!userName) {
+        if (!firstName) {
             return res.status(401).json({ message: 'User not available' });
         }
     
@@ -60,12 +60,12 @@ class blogController {
                 return res.status(404).json({ message: 'Blog not found' });
             }
     
-            if (userName && typeof userName === 'string' && !blog.likes.includes(userName)) {
-                blog.likes.push(userName);
+            if (firstName && typeof firstName === 'string' && !blog.likes.includes(firstName)) {
+                blog.likes.push(firstName);
                 await blog.save();
                 return res.status(200).json({ message: 'Blog liked successfully', blog });
             } else {
-                const userIndex = blog.likes.indexOf(userName);
+                const userIndex = blog.likes.indexOf(firstName);
                 if (userIndex !== -1) {
                     blog.likes.splice(userIndex, 1); // Remove the like
                     await blog.save();

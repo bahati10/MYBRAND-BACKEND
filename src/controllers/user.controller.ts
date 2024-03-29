@@ -9,8 +9,8 @@ class userController {
     //add user controller
     adduser = async (req: Request, res: Response) => {
         const data = {
-            names: req.body.names,
-            username: req.body.username,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
             email: req.body.email,
             password: req.body.password,
         };
@@ -31,14 +31,9 @@ class userController {
         }
 
         const existingEmail = await User.findOne({ email: value.email });
-        const existingUsername = await User.findOne({ username: value.username });
 
         if (existingEmail) {
             return res.status(400).json({ error: 'Email already used' });
-        }
-
-        if (existingUsername) {
-            return res.status(400).json({ error: 'Username already exists' });
         }
     
         try {
@@ -62,7 +57,7 @@ class userController {
                 res.status(401).json({ message: user });
             } else {
                 const token = jwt.sign(
-                    { userId: user._id, email: user.email, username: user.username }, process.env.JWT_SECRET || '',
+                    { userId: user._id, email: user.email, firstname: user.firstname }, process.env.JWT_SECRET || '',
                     { expiresIn: process.env.EXPIRATION_TIME } 
     
                 );
