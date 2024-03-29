@@ -1,6 +1,6 @@
-import express from 'express';
-import { MessageController } from '../controllers/message.controller.js';
-import { userLoginMiddleware } from '../middleware/userlogin.middleware.js';
+import express from "express";
+import { MessageController } from "../controllers/message.controller.js";
+import { userLoginMiddleware } from "../middleware/userlogin.middleware.js";
 export const messagesRouter = express.Router();
 /**
  * @swagger
@@ -60,7 +60,11 @@ messagesRouter.post("/send", MessageController.sendmessage);
  *       '500':
  *         description: Internal Server Error.
  */
-messagesRouter.get("/messages", userLoginMiddleware, MessageController.getMessages);
+messagesRouter.get(
+  "/messages",
+  userLoginMiddleware,
+  MessageController.getMessages
+);
 /**
  * @swagger
  * /api/messages:
@@ -76,7 +80,11 @@ messagesRouter.get("/messages", userLoginMiddleware, MessageController.getMessag
  *       '500':
  *         description: Internal Server Error.
  */
-messagesRouter.get("/messages/:id", userLoginMiddleware, MessageController.getAMessage);
+messagesRouter.get(
+  "/messages/:id",
+  userLoginMiddleware,
+  MessageController.getAMessage
+);
 /**
  * @swagger
  * /api/messages/{id}:
@@ -101,7 +109,11 @@ messagesRouter.get("/messages/:id", userLoginMiddleware, MessageController.getAM
  *       '500':
  *         description: Internal Server Error.
  */
-messagesRouter.delete("/messages/delete/:id", userLoginMiddleware, MessageController.deleteMessage);
+messagesRouter.delete(
+  "/messages/delete/:id",
+  userLoginMiddleware,
+  MessageController.deleteMessage
+);
 /**
  * @swagger
  * /api/messages/delete/{id}:

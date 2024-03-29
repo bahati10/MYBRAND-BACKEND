@@ -14,16 +14,6 @@ export const messagesRouter = express.Router();
 /**
  * @swagger
  * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- */
-
-/**
- * @swagger
- * components:
  *   schemas:
  *     Message:
  *       type: object

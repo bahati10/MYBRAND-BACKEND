@@ -1,6 +1,6 @@
-import express from 'express';
-import { UserController } from '../controllers/user.controller.js';
-import { userLoginMiddleware } from '../middleware/userlogin.middleware.js';
+import express from "express";
+import { UserController } from "../controllers/user.controller.js";
+import { userLoginMiddleware } from "../middleware/userlogin.middleware.js";
 /**
  * @swagger
  * components:
@@ -61,6 +61,50 @@ usersRouter.post("/register", UserController.adduser);
  *               $ref: '#/components/schemas/User'
  */
 //login a user
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     summary: Login as a user
+ *     description: Login with email and password
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: User's email address
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *             required:
+ *               - email
+ *               - password
+ *     responses:
+ *       '200':
+ *         description: Logged in successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Success message
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for authentication
+ *       '400':
+ *         description: Bad request, check your input data
+ *       '401':
+ *         description: Unauthorized, invalid credentials
+ *       '500':
+ *         description: Internal server error
+ */
 usersRouter.post("/login", UserController.loginUser);
 /**
  * @swagger
@@ -166,7 +210,11 @@ usersRouter.get("/users/:id", userLoginMiddleware, UserController.getAUser);
  *         description: Internal server error
  */
 //update user
-usersRouter.put("/user/updateuser/:id", userLoginMiddleware, UserController.updateUser);
+usersRouter.put(
+  "/user/updateuser/:id",
+  userLoginMiddleware,
+  UserController.updateUser
+);
 /**
  * @swagger
  * /api/updateuser/{id}:
@@ -206,7 +254,11 @@ usersRouter.put("/user/updateuser/:id", userLoginMiddleware, UserController.upda
  *         description: Internal server error
  */
 //delete a user
-usersRouter.delete("/user/delete/:id", userLoginMiddleware, UserController.deleteUser);
+usersRouter.delete(
+  "/user/delete/:id",
+  userLoginMiddleware,
+  UserController.deleteUser
+);
 /**
  * @swagger
  * /api/delete/{id}:
