@@ -52,15 +52,15 @@ export class blogService {
             }
         });
     }
-    addComment(blogId, commentData, username) {
+    addComment(blogId, commentData, firstName) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const blog = yield Blog.findById(blogId);
                 if (!blog) {
                     throw new Error("Blog not found");
                 }
-                // Add the username to the comment data
-                commentData.username = username;
+                // Add the firstname to the comment data
+                commentData.firstName = firstName;
                 blog.comments.push(commentData);
                 const updatedBlog = yield blog.save();
                 return updatedBlog;

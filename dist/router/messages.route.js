@@ -3,6 +3,12 @@ import { MessageController } from '../controllers/message.controller.js';
 export const messagesRouter = express.Router();
 /**
  * @swagger
+ * tags:
+ *   name: Messages
+ *   description: Messages management
+ */
+/**
+ * @swagger
  * components:
  *   schemas:
  *     Message:
@@ -28,6 +34,7 @@ export const messagesRouter = express.Router();
  *   post:
  *     summary: Send a message
  *     description: Create and send a new message.
+ *     tags: [Messages]
  *     requestBody:
  *       required: true
  *       content:
@@ -49,6 +56,7 @@ messagesRouter.post("/send", MessageController.sendmessage);
  *   get:
  *     summary: Get all messages
  *     description: Retrieve all messages.
+ *     tags: [Messages]
  *     responses:
  *       '200':
  *         description: Messages retrieved successfully.
@@ -62,6 +70,7 @@ messagesRouter.get("/messages", MessageController.getMessages);
  *   get:
  *     summary: Get a message by ID
  *     description: Retrieve a message by its ID.
+ *     tags: [Messages]
  *     parameters:
  *       - in: path
  *         name: id
@@ -84,6 +93,7 @@ messagesRouter.get("/messages/:id", MessageController.getAMessage);
  *   delete:
  *     summary: Delete a message by ID
  *     description: Delete a message by its ID.
+ *     tags: [Messages]
  *     parameters:
  *       - in: path
  *         name: id

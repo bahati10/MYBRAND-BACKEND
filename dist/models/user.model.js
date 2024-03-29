@@ -2,18 +2,18 @@
 import { Schema, model, } from 'mongoose';
 import Joi from 'joi';
 export const UserschemaValidate = Joi.object({
-    names: Joi.string().required(),
-    username: Joi.string().required(),
+    firstname: Joi.string().required(),
+    lastname: Joi.string().required(),
     email: Joi.string().required(),
     password: Joi.string().required().min(8),
 });
 //Userschema
 const userSchema = new Schema({
-    names: {
+    firstname: {
         type: String,
         required: true
     },
-    username: {
+    lastname: {
         type: String,
         required: true,
     },
