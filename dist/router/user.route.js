@@ -38,6 +38,7 @@ export const usersRouter = express.Router();
  *       scheme: bearer
  *       bearerFormat: JWT
  */
+usersRouter.post("/register", UserController.adduser);
 /**
  * @swagger
  * /api/register:
@@ -59,8 +60,8 @@ export const usersRouter = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-usersRouter.post("/register", UserController.adduser);
 //login a user
+usersRouter.post("/login", UserController.loginUser);
 /**
  * @swagger
  * /api/login:
@@ -105,8 +106,8 @@ usersRouter.post("/register", UserController.adduser);
  *       '500':
  *         description: Internal server error
  */
-usersRouter.post("/login", UserController.loginUser);
 //get all users
+usersRouter.get("/users", userLoginMiddleware, UserController.getUsers);
 /**
  * @swagger
  * /api/users:
@@ -130,8 +131,8 @@ usersRouter.post("/login", UserController.loginUser);
  *       '500':
  *         description: Internal server error
  */
-usersRouter.get("/users", userLoginMiddleware, UserController.getUsers);
 // get single user
+usersRouter.get("/users/:id", userLoginMiddleware, UserController.getAUser);
 /**
  * @swagger
  * /api/users/{id}:
@@ -164,10 +165,11 @@ usersRouter.get("/users", userLoginMiddleware, UserController.getUsers);
  *       '500':
  *         description: Internal server error
  */
-usersRouter.get("/users/:id", userLoginMiddleware, UserController.getAUser);
+//update user
+usersRouter.put("/user/updateuser/:id", userLoginMiddleware, UserController.updateUser);
 /**
  * @swagger
- * /api/update/{id}:
+ * /api/updateuser/{id}:
  *   put:
  *     summary: Update user by ID
  *     description: Update user details by their ID (protected route, requires authentication token)
@@ -203,8 +205,8 @@ usersRouter.get("/users/:id", userLoginMiddleware, UserController.getAUser);
  *       '500':
  *         description: Internal server error
  */
-//update user
-usersRouter.put("/update/:id", userLoginMiddleware, UserController.updateUser);
+//delete a user
+usersRouter.delete("/user/delete/:id", userLoginMiddleware, UserController.deleteUser);
 /**
  * @swagger
  * /api/delete/{id}:
@@ -233,5 +235,3 @@ usersRouter.put("/update/:id", userLoginMiddleware, UserController.updateUser);
  *       '500':
  *         description: Internal server error
  */
-//delete a user
-usersRouter.delete("/delete/:id", userLoginMiddleware, UserController.deleteUser);
