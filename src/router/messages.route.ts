@@ -1,5 +1,6 @@
 import express from 'express';
 import { MessageController } from '../controllers/message.controller.js';
+import { userLoginMiddleware } from '../middleware/userlogin.middleware.js';
 
 export const messagesRouter = express.Router();
 
@@ -8,6 +9,16 @@ export const messagesRouter = express.Router();
  * tags:
  *   name: Messages
  *   description: Messages management
+ */
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  */
 
 /**
@@ -32,6 +43,8 @@ export const messagesRouter = express.Router();
  *           description: Content of the message
  */
 
+
+messagesRouter.post("/send", MessageController.sendmessage);
 /**
  * @swagger
  * /api/send:
@@ -53,7 +66,10 @@ export const messagesRouter = express.Router();
  *       '500':
  *         description: Internal Server Error.
  */
-messagesRouter.post("/send", MessageController.sendmessage);
+
+
+
+messagesRouter.get("/messages", userLoginMiddleware, MessageController.getMessages);
 
 /**
  * @swagger
@@ -62,13 +78,18 @@ messagesRouter.post("/send", MessageController.sendmessage);
  *     summary: Get all messages
  *     description: Retrieve all messages.
  *     tags: [Messages]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       '200':
  *         description: Messages retrieved successfully.
  *       '500':
  *         description: Internal Server Error.
  */
-messagesRouter.get("/messages", MessageController.getMessages);
+
+
+messagesRouter.get("/messages/:id", userLoginMiddleware,  MessageController.getAMessage);
+
 
 /**
  * @swagger
@@ -77,6 +98,8 @@ messagesRouter.get("/messages", MessageController.getMessages);
  *     summary: Get a message by ID
  *     description: Retrieve a message by its ID.
  *     tags: [Messages]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -92,7 +115,10 @@ messagesRouter.get("/messages", MessageController.getMessages);
  *       '500':
  *         description: Internal Server Error.
  */
-messagesRouter.get("/messages/:id", MessageController.getAMessage);
+
+
+
+messagesRouter.delete("/messages/delete/:id", userLoginMiddleware, MessageController.deleteMessage);
 
 /**
  * @swagger
@@ -101,6 +127,8 @@ messagesRouter.get("/messages/:id", MessageController.getAMessage);
  *     summary: Delete a message by ID
  *     description: Delete a message by its ID.
  *     tags: [Messages]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -116,6 +144,5 @@ messagesRouter.get("/messages/:id", MessageController.getAMessage);
  *       '500':
  *         description: Internal Server Error.
  */
-messagesRouter.delete("/messages/delete/:id", MessageController.deleteMessage);
 
 export default messagesRouter;
