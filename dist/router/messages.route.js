@@ -69,7 +69,7 @@ messagesRouter.get("/messages", userLoginMiddleware, MessageController.getMessag
  *     description: Retrieve all messages.
  *     tags: [Messages]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     responses:
  *       '200':
  *         description: Messages retrieved successfully.
@@ -85,7 +85,7 @@ messagesRouter.get("/messages/:id", userLoginMiddleware, MessageController.getAM
  *     description: Retrieve a message by its ID.
  *     tags: [Messages]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -110,7 +110,7 @@ messagesRouter.delete("/messages/delete/:id", userLoginMiddleware, MessageContro
  *     description: Delete a message by its ID.
  *     tags: [Messages]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
