@@ -80,7 +80,7 @@ blogsRouter.post("/addblog/add", userLoginMiddleware, BlogController.addblog)
  *     description: Add a new blog post.
  *     tags: [Blog]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -114,7 +114,7 @@ blogsRouter.post("/blog/:id/comment", userLoginMiddleware, BlogController.addCom
  *     description: Add a comment to an existing blog post.
  *     tags: [Blog]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -160,7 +160,7 @@ blogsRouter.post("/blog/:id/like", userLoginMiddleware, BlogController.likeBlog)
  *     description: Like or unlike a blog post.
  *     tags: [Blog]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -243,7 +243,7 @@ blogsRouter.put("/blog/update/:id", userLoginMiddleware, BlogController.updateBl
  *     description: Update an existing blog post.
  *     tags: [Blog]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -287,7 +287,7 @@ blogsRouter.delete("/blog/delete/:id", userLoginMiddleware, BlogController.delet
  *     description: Delete a blog by its ID.
  *     tags: [Blog]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
