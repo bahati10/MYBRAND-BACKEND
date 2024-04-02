@@ -61,7 +61,7 @@ export const blogsRouter = express.Router();
  *           description: Array of comments on the blog
  */
 //add a blog
-blogsRouter.post("/addblog/add", userLoginMiddleware, BlogController.addblog);
+blogsRouter.post("/addblog", userLoginMiddleware, BlogController.addblog);
 /**
  * @swagger
  * /api/addblog:

@@ -29,7 +29,7 @@ class messageController {
     //get all messages
     getMessages = async (req: Request, res: Response) => {
         const theMessages = await messageServices.getMessages()
-        res.json({ message: "Messages Retrieved successfully : ", theMessages })
+        res.json({ message: "Messages Retrieved successfully", theMessages })
     }
 
     //get a single message
@@ -37,7 +37,7 @@ class messageController {
         //get id from the parameter
         const id = req.params.id
         const theMessage = await messageServices.getMessage(id)
-        res.json({ msg: "Message Retrieved successfully", theMessage })
+        res.json({ message: "Message Retrieved successfully", theMessage })
     }
 
     //delete a message
