@@ -61,7 +61,7 @@ class userController {
                     { expiresIn: process.env.EXPIRATION_TIME } 
     
                 );
-                res.status(200).json({ message: "Logged in succesfully", token });
+                res.status(200).json({ message: "Logged in successfully", token });
             }
         } catch (error: any) {
             res.status(500).json({ message: error.message });

@@ -1,110 +1,97 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import { Blog, BlogschemaValidate } from '../models/blog.model.js';
 import { blogServices } from '../services/blogs.service.js';
 class blogController {
-    constructor() {
-        //add blog controller
-        this.addblog = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            //data to be saved in database
-            const data = {
-                image: req.body.image,
-                title: req.body.title,
-                subtitle: req.body.subtitle,
-                content: req.body.content,
-            };
-            const { error, value } = BlogschemaValidate.validate(data);
-            if (error) {
-                res.json({ message: error });
-            }
-            else {
-                const blog = yield blogServices.createBlog(value);
-                res.status(201).json({ message: "Blog Added successfully: ", blog });
-            }
-        });
-        this.addComment = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            var _a;
-            const id = req.params.id;
-            const { content } = req.body;
-            const firstName = (_a = req.userData) === null || _a === void 0 ? void 0 : _a.firstname;
-            if (firstName && typeof firstName === 'string') {
-                try {
-                    const updatedBlog = yield blogServices.addComment(id, { user: firstName, content }, firstName);
-                    res.json({ message: "Comment added successfully", blog: updatedBlog });
-                }
-                catch (error) {
-                    res.status(500).json({ message: "Error adding comment", error: error.message });
-                }
-            }
-            else {
-                res.status(401).json({ message: 'Invalid user data' });
-            }
-        });
-        // Like a blog
-        this.likeBlog = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            var _b;
-            const id = req.params.id;
-            const firstName = (_b = req.userData) === null || _b === void 0 ? void 0 : _b.firstname;
-            if (!firstName) {
-                return res.status(401).json({ message: 'User not available' });
-            }
+    //add blog controller
+    addblog = async (req, res) => {
+        //data to be saved in database
+        const data = {
+            image: req.body.image,
+            title: req.body.title,
+            subtitle: req.body.subtitle,
+            content: req.body.content,
+        };
+        const { error, value } = BlogschemaValidate.validate(data);
+        if (error) {
+            res.json({ message: error });
+        }
+        else {
+            const blog = await blogServices.createBlog(value);
+            res.status(201).json({ message: "Blog Added successfully: ", blog });
+        }
+    };
+    addComment = async (req, res) => {
+        const id = req.params.id;
+        const { content } = req.body;
+        const firstName = req.userData?.firstname;
+        if (firstName && typeof firstName === 'string') {
             try {
-                const blog = yield Blog.findById(id);
-                if (!blog) {
-                    return res.status(404).json({ message: 'Blog not found' });
-                }
-                if (firstName && typeof firstName === 'string' && !blog.likes.includes(firstName)) {
-                    blog.likes.push(firstName);
-                    yield blog.save();
-                    return res.status(200).json({ message: 'Blog liked successfully', blog });
-                }
-                else {
-                    const userIndex = blog.likes.indexOf(firstName);
-                    if (userIndex !== -1) {
-                        blog.likes.splice(userIndex, 1); // Remove the like
-                        yield blog.save();
-                        return res.status(200).json({ message: 'Blog like removed successfully', blog });
-                    }
-                    // return res.status(400).json({ message: 'You already liked this blog or user ID is invalid' });
-                }
+                const updatedBlog = await blogServices.addComment(id, { user: firstName, content }, firstName);
+                res.json({ message: "Comment added successfully", blog: updatedBlog });
             }
             catch (error) {
-                console.error('Error liking blog:', error);
-                return res.status(500).json({ message: 'Error liking blog' });
+                res.status(500).json({ message: "Error adding comment", error: error.message });
             }
-        });
-        //get all blogs
-        this.getBlogs = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const blogs = yield blogServices.getBlogs();
-            res.json({ message: "Blogs retrieved successfully : ", blogs });
-        });
-        //get a single blog
-        this.getABlog = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            //get id from the parameter
-            const id = req.params.id;
-            const blog = yield blogServices.getBlog(id);
-            res.json({ message: "Blog Retrieved successfully", blog });
-        });
-        //update blog
-        this.updateBlog = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const id = req.params.id;
-            const blog = yield blogServices.updateBlog(id, req.body);
-            res.json({ message: "Blog updated successfully", blog });
-        });
-        //delete a blog
-        this.deleteBlog = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const id = req.params.id;
-            yield blogServices.deleteBlog(id);
-            res.json({ message: 'Blog Deleted successfully' });
-        });
-    }
+        }
+        else {
+            res.status(401).json({ message: 'Invalid user data' });
+        }
+    };
+    // Like a blog
+    likeBlog = async (req, res) => {
+        const id = req.params.id;
+        const firstName = req.userData?.firstname;
+        if (!firstName) {
+            return res.status(401).json({ message: 'User not available' });
+        }
+        try {
+            const blog = await Blog.findById(id);
+            if (!blog) {
+                return res.status(404).json({ message: 'Blog not found' });
+            }
+            if (firstName && typeof firstName === 'string' && !blog.likes.includes(firstName)) {
+                blog.likes.push(firstName);
+                await blog.save();
+                return res.status(200).json({ message: 'Blog liked successfully', blog });
+            }
+            else {
+                const userIndex = blog.likes.indexOf(firstName);
+                if (userIndex !== -1) {
+                    blog.likes.splice(userIndex, 1); // Remove the like
+                    await blog.save();
+                    return res.status(200).json({ message: 'Blog like removed successfully', blog });
+                }
+                // return res.status(400).json({ message: 'You already liked this blog or user ID is invalid' });
+            }
+        }
+        catch (error) {
+            console.error('Error liking blog:', error);
+            return res.status(500).json({ message: 'Error liking blog' });
+        }
+    };
+    //get all blogs
+    getBlogs = async (req, res) => {
+        const blogs = await blogServices.getBlogs();
+        res.json({ message: "Blogs retrieved successfully : ", blogs });
+    };
+    //get a single blog
+    getABlog = async (req, res) => {
+        //get id from the parameter
+        const id = req.params.id;
+        const blog = await blogServices.getBlog(id);
+        res.json({ message: "Blog Retrieved successfully", blog });
+    };
+    //update blog
+    updateBlog = async (req, res) => {
+        const id = req.params.id;
+        const blog = await blogServices.updateBlog(id, req.body);
+        res.json({ message: "Blog updated successfully", blog });
+    };
+    //delete a blog
+    deleteBlog = async (req, res) => {
+        const id = req.params.id;
+        await blogServices.deleteBlog(id);
+        res.json({ message: 'Blog Deleted successfully' });
+    };
 }
 //export class
 export const BlogController = new blogController();
