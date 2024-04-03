@@ -10,18 +10,18 @@ export class userService {
     static createUser(value: any) {
         throw new Error('Method not implemented.')
     }
-    //create a user
-    async createUser(data: any) {
-        try {
-            
-            const newUser = await User.create(data)
-            return newUser
-        
 
-        } catch (error) {
-            console.log(error)
-        }
+async createUser(data: any) {
+    try {
+        const { firstname, lastname, email, password, isAdmin } = data;
+        const newUser = await User.create({ firstname, lastname, email, password, isAdmin });
+        return newUser;
+    } catch (error) {
+        console.log(error);
+        throw new Error('Failed to create user');
     }
+}
+
 
         // Login a user
     async loginUser(email: string, password: string) {
@@ -48,6 +48,36 @@ export class userService {
             throw new Error('Login failed');
         }
     }
+
+    // Login admin
+        async loginAdmin(email: string, password: string) {
+
+            if(!email || !password){
+                    return 'Please fill all inputs provided'
+            }
+        
+            try {
+                const user = await User.findOne({ email });
+                if (!user) {
+                    return 'User not found';
+                }
+
+                if (user.email === "admin@email.com") {
+                    console.log("Admin user logged in");
+                }
+            
+                const isPasswordMatch = await bcrypt.compare(password, user.password);
+                if (!isPasswordMatch) {
+                    return 'Invalid credentials';
+                }
+        
+                return user;
+        
+            } catch (error) {
+                console.log(error);
+                throw new Error('Login failed');
+            }
+        }
 
     //get all users
     async getUsers() {

@@ -1,6 +1,7 @@
 import express from 'express';
 import { userLoginMiddleware } from '../middleware/userlogin.middleware.js';
 import { BlogController } from '../controllers/blog.controller.js';
+import { adminLoginMiddleware } from '../middleware/adminAuth.middleware.js';
 export const blogsRouter = express.Router();
 /**
  * @swagger
@@ -34,34 +35,12 @@ export const blogsRouter = express.Router();
  *         subtitle:
  *           type: string
  *           description: Subtitle of the blog
- *         author:
- *           type: string
- *           description: >
- *             Author of the blog. Default value is "Bahati Yves".
- *             You can change the default author in the blog creation process.
  *         content:
  *           type: string
  *           description: Content of the blog
- *         likes:
- *           type: array
- *           items:
- *             type: string
- *           description: Array of user IDs who liked the blog
- *         comments:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               user:
- *                 type: string
- *                 description: User who made the comment
- *               content:
- *                 type: string
- *                 description: Content of the comment
- *           description: Array of comments on the blog
  */
 //add a blog
-blogsRouter.post("/addblog", userLoginMiddleware, BlogController.addblog);
+blogsRouter.post("/addblog", adminLoginMiddleware, BlogController.addblog);
 /**
  * @swagger
  * /api/addblog:
@@ -92,7 +71,7 @@ blogsRouter.post("/addblog", userLoginMiddleware, BlogController.addblog);
  *         description: Internal Server Error.
  */
 // Add comment to a blog
-blogsRouter.post("/blog/:id/comment", userLoginMiddleware, BlogController.addComment);
+blogsRouter.post("/blog/:id/comment", adminLoginMiddleware, userLoginMiddleware, BlogController.addComment);
 /**
  * @swagger
  * /api/blog/{id}/comment:
@@ -134,7 +113,7 @@ blogsRouter.post("/blog/:id/comment", userLoginMiddleware, BlogController.addCom
  *         description: Internal Server Error.
  */
 // Like to a blog
-blogsRouter.post("/blog/:id/like", userLoginMiddleware, BlogController.likeBlog);
+blogsRouter.post("/blog/:id/like", adminLoginMiddleware, userLoginMiddleware, BlogController.likeBlog);
 /**
  * @swagger
  * /api/blog/{id}/like:
@@ -209,7 +188,7 @@ blogsRouter.get("/blog/:id", BlogController.getABlog);
  *                 $ref: '#/components/schemas/Blog'
  */
 //update a blog
-blogsRouter.put("/blog/update/:id", userLoginMiddleware, BlogController.updateBlog);
+blogsRouter.put("/blog/update/:id", adminLoginMiddleware, BlogController.updateBlog);
 /**
  * @swagger
  * /api/blog/{id}:
@@ -249,7 +228,7 @@ blogsRouter.put("/blog/update/:id", userLoginMiddleware, BlogController.updateBl
  *         description: Internal Server Error.
  */
 //delete a blog
-blogsRouter.delete("/blog/delete/:id", userLoginMiddleware, BlogController.deleteBlog);
+blogsRouter.delete("/blog/delete/:id", adminLoginMiddleware, BlogController.deleteBlog);
 /**
  * @swagger
  * /api/blog/delete/{id}:

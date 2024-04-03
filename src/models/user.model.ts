@@ -1,12 +1,13 @@
 //importing modules
 import  {Schema, model,} from 'mongoose'
-import Joi from 'joi'
+import Joi, { boolean } from 'joi'
 
 export const UserschemaValidate = Joi.object({
     firstname: Joi.string().required(),
     lastname: Joi.string().required(),
     email: Joi.string().required(),
     password: Joi.string().required().min(8),
+    isAdmin: Joi.boolean()
 })
 
 //creating an interface 
@@ -15,7 +16,7 @@ interface IUsers {
     lastname: string,
     email: string,
     password: string,
-
+    isAdmin: boolean
 }
 
 //Userschema
@@ -38,6 +39,10 @@ const userSchema = new Schema<IUsers>({
         type: String,
         required: true
     },
+    isAdmin: {
+        type: Boolean,
+        default: false 
+    }
 })
 
 //creating a model

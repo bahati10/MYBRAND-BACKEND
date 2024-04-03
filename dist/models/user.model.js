@@ -6,6 +6,7 @@ export const UserschemaValidate = Joi.object({
     lastname: Joi.string().required(),
     email: Joi.string().required(),
     password: Joi.string().required().min(8),
+    isAdmin: Joi.boolean()
 });
 //Userschema
 const userSchema = new Schema({
@@ -25,6 +26,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    }
 });
 //creating a model
 export const User = model('User', userSchema);
