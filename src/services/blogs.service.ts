@@ -42,14 +42,14 @@ export class blogService {
         }
     }
 
-    async addComment(blogId: string, commentData: any, firstName: string) {
+    async addComment(blogId: string, commentData: any, username: string) {
         try {
             const blog = await Blog.findById(blogId);
             if (!blog) {
                 throw new Error("Blog not found");
             }
-            // Add the firstname to the comment data
-            commentData.firstName = firstName;
+            // Add the username to the comment data
+            commentData.username = username;
             blog.comments.push(commentData);
             const updatedBlog = await blog.save();
             return updatedBlog;
