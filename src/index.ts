@@ -7,12 +7,19 @@ import { messagesRouter } from './router/messages.route.js';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerOptions from './swagger.js';
+import cors from 'cors';
 
 
 dotenv.config();
 
 export const app = express()
 const port = process.env.PORT
+
+app.use(cors());
+
+app.use(cors({
+    origin: "https://mybrand-backend-2-hey7.onrender.com"
+  }));
 
 const specs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
