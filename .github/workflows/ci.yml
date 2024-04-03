@@ -22,7 +22,7 @@ jobs:
           node-version: "18.2"
 
       - name: Install dependencies
-        run: yarn add
+        run: yarn
 
       - name: Run tests
         run: yarn test -- --coverage
