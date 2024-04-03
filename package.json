@@ -52,12 +52,11 @@
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
     "all": true,
-    "reporter": [
-      "html",
-      "lcov",
-      "text",
-      "text-summary"
-    ],
+    "reporter": [        
+    "html",
+    "lcov",
+    "text",
+    "text-summary"],
     "report-dir": "coverage",
     "exclude": [
       "**/*.d.ts",
@@ -65,4 +64,5 @@
       "src/**/*.ts"
     ]
   }
+    
 }
