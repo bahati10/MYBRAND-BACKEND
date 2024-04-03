@@ -1,6 +1,7 @@
 import express from 'express'
 import { userLoginMiddleware } from '../middleware/userlogin.middleware.js'
 import { BlogController } from '../controllers/blog.controller.js'
+import { adminLoginMiddleware } from '../middleware/adminAuth.middleware.js'
 
 
 export const blogsRouter = express.Router()
@@ -48,7 +49,7 @@ export const blogsRouter = express.Router()
 
 
 //add a blog
-blogsRouter.post("/addblog", userLoginMiddleware, BlogController.addblog)
+blogsRouter.post("/addblog", adminLoginMiddleware, BlogController.addblog)
 
 /**
  * @swagger
@@ -212,7 +213,7 @@ blogsRouter.get("/blog/:id", BlogController.getABlog)
 
 
 //update a blog
-blogsRouter.put("/blog/update/:id", userLoginMiddleware, BlogController.updateBlog)
+blogsRouter.put("/blog/update/:id", adminLoginMiddleware, BlogController.updateBlog)
 /**
  * @swagger
  * /api/blog/{id}:
@@ -255,7 +256,7 @@ blogsRouter.put("/blog/update/:id", userLoginMiddleware, BlogController.updateBl
 
 
 //delete a blog
-blogsRouter.delete("/blog/delete/:id", userLoginMiddleware, BlogController.deleteBlog)
+blogsRouter.delete("/blog/delete/:id", adminLoginMiddleware, BlogController.deleteBlog)
 
 /**
  * @swagger

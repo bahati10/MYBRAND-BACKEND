@@ -13,6 +13,7 @@ class userController {
             lastname: req.body.lastname,
             email: req.body.email,
             password: req.body.password,
+            isAdmin: req.body.isAdmin || false,
         };
 
 
@@ -67,6 +68,26 @@ class userController {
             res.status(500).json({ message: error.message });
         }
     };
+
+        // Login admin
+        loginAdmin = async (req: Request, res: Response) => {
+            try {
+                const { email, password } = req.body;
+                const user = await userServices.loginAdmin(email, password);
+                if (typeof user === 'string') {
+                    res.status(401).json({ message: user });
+                } else {
+                    const token = jwt.sign(
+                        { userId: user._id, email: user.email, isAdmin: user.isAdmin }, process.env.JWT_SECRET_ADMIN || '',
+                        { expiresIn: process.env.EXPIRATION_TIME } 
+        
+                    );
+                    res.status(200).json({ message: "Logged in successfully", token });
+                }
+            } catch (error: any) {
+                res.status(500).json({ message: error.message });
+            }
+        };
     
 
     //get all users

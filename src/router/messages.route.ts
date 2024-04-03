@@ -1,6 +1,6 @@
 import express from 'express';
 import { MessageController } from '../controllers/message.controller.js';
-import { userLoginMiddleware } from '../middleware/userlogin.middleware.js';
+import { adminLoginMiddleware } from '../middleware/adminAuth.middleware.js';
 
 export const messagesRouter = express.Router();
 
@@ -69,7 +69,7 @@ messagesRouter.post("/send", MessageController.sendmessage);
 
 
 
-messagesRouter.get("/messages", userLoginMiddleware, MessageController.getMessages);
+messagesRouter.get("/messages", adminLoginMiddleware, MessageController.getMessages);
 
 /**
  * @swagger
@@ -88,7 +88,7 @@ messagesRouter.get("/messages", userLoginMiddleware, MessageController.getMessag
  */
 
 
-messagesRouter.get("/messages/:id", userLoginMiddleware,  MessageController.getAMessage);
+messagesRouter.get("/messages/:id", adminLoginMiddleware,  MessageController.getAMessage);
 
 
 /**
@@ -118,7 +118,7 @@ messagesRouter.get("/messages/:id", userLoginMiddleware,  MessageController.getA
 
 
 
-messagesRouter.delete("/messages/delete/:id", userLoginMiddleware, MessageController.deleteMessage);
+messagesRouter.delete("/messages/delete/:id", adminLoginMiddleware, MessageController.deleteMessage);
 
 /**
  * @swagger

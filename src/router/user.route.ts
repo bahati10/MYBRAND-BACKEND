@@ -1,6 +1,6 @@
 import express from 'express'
 import { UserController } from '../controllers/user.controller.js'
-import { userLoginMiddleware } from '../middleware/userlogin.middleware.js'
+import { adminLoginMiddleware } from '../middleware/adminAuth.middleware.js';
 
 
 /**
@@ -75,7 +75,6 @@ usersRouter.post("/register", UserController.adduser)
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-usersRouter.post("/register", UserController.adduser)
 
 
 //login a user
@@ -124,7 +123,7 @@ usersRouter.post("/register", UserController.adduser)
  *       '500':
  *         description: Internal server error
  */
-usersRouter.post("/login", UserController.loginUser)
+usersRouter.post("/login",  UserController.loginAdmin, UserController.loginUser)
 /**
  * @swagger
  * /api/login:
@@ -173,7 +172,7 @@ usersRouter.post("/login", UserController.loginUser)
 
 
 //get all users
-usersRouter.get("/users", userLoginMiddleware,UserController.getUsers)
+usersRouter.get("/users", adminLoginMiddleware, UserController.getUsers)
 /**
  * @swagger
  * /api/users:
@@ -201,7 +200,7 @@ usersRouter.get("/users", userLoginMiddleware,UserController.getUsers)
 
 
 // get single user
-usersRouter.get("/users/:id", userLoginMiddleware, UserController.getAUser)
+usersRouter.get("/users/:id", adminLoginMiddleware, UserController.getAUser)
 /**
  * @swagger
  * /api/users/{id}:
@@ -234,43 +233,6 @@ usersRouter.get("/users/:id", userLoginMiddleware, UserController.getAUser)
  *       '500':
  *         description: Internal server error
  */
-
-
-
-/**
- * @swagger
- * /api/users/{id}:
- *   get:
- *     summary: Get a single user by ID
- *     description: Retrieve a user by their ID (protected route, requires authentication token)
- *     tags: [Users]
- *     security:
- *       - BearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID of the user to retrieve
- *         schema:
- *           type: string
- *     responses:
- *       '200':
- *         description: User found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       '400':
- *         description: Bad request, invalid user ID format
- *       '401':
- *         description: Unauthorized, token missing or invalid
- *       '404':
- *         description: User not found
- *       '500':
- *         description: Internal server error
- */
-
-usersRouter.get("/users/:id", userLoginMiddleware, UserController.getAUser)
 
 
 /**
@@ -311,79 +273,11 @@ usersRouter.get("/users/:id", userLoginMiddleware, UserController.getAUser)
  *       '500':
  *         description: Internal server error
  */
-//update user
-usersRouter.put("/user/updateuser/:id", userLoginMiddleware, UserController.updateUser)
-/**
- * @swagger
- * /api/updateuser/{id}:
- *   put:
- *     summary: Update user by ID
- *     description: Update user details by their ID (protected route, requires authentication token)
- *     tags: [Users]
- *     security:
- *       - BearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID of the user to update
- *         schema:
- *           type: string
- *       - in: body
- *         name: body
- *         description: User object that needs to be updated
- *         required: true
- *         schema:
- *           $ref: '#/components/schemas/User'
- *     responses:
- *       '200':
- *         description: User updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       '400':
- *         description: Bad request, invalid user ID format or missing/invalid data
- *       '401':
- *         description: Unauthorized, token missing or invalid
- *       '404':
- *         description: User not found
- *       '500':
- *         description: Internal server error
- */
 
 
 
-/**
- * @swagger
- * /api/delete/{id}:
- *   delete:
- *     summary: Delete user by ID
- *     description: Delete a user by their ID (protected route, requires authentication token)
- *     tags: [Users]
- *     security:
- *       - BearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID of the user to delete
- *         schema:
- *           type: string
- *     responses:
- *       '200':
- *         description: User deleted successfully
- *       '400':
- *         description: Bad request, invalid user ID format
- *       '401':
- *         description: Unauthorized, token missing or invalid
- *       '404':
- *         description: User not found
- *       '500':
- *         description: Internal server error
- */
 //delete a user
-usersRouter.delete("/user/delete/:id", userLoginMiddleware, UserController.deleteUser)
+usersRouter.delete("/user/delete/:id", adminLoginMiddleware, UserController.deleteUser)
 /**
  * @swagger
  * /api/delete/{id}:
