@@ -41,31 +41,9 @@ export const blogsRouter = express.Router()
  *         subtitle:
  *           type: string
  *           description: Subtitle of the blog
- *         author:
- *           type: string
- *           description: >
- *             Author of the blog. Default value is "Bahati Yves".
- *             You can change the default author in the blog creation process.
  *         content:
  *           type: string
  *           description: Content of the blog
- *         likes:
- *           type: array
- *           items:
- *             type: string
- *           description: Array of user IDs who liked the blog
- *         comments:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               user:
- *                 type: string
- *                 description: User who made the comment
- *               content:
- *                 type: string
- *                 description: Content of the comment
- *           description: Array of comments on the blog
  */
 
 
