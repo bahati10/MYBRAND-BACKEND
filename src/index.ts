@@ -15,8 +15,6 @@ dotenv.config();
 export const app = express()
 const port = process.env.PORT
 
-app.use(cors());
-
 app.use(cors({
     origin: "https://mybrand-backend-2-hey7.onrender.com"
   }));
