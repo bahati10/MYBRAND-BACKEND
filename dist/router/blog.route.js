@@ -40,10 +40,10 @@ export const blogsRouter = express.Router();
  *           description: Content of the blog
  */
 //add a blog
-blogsRouter.post("/addblog", adminLoginMiddleware, BlogController.addblog);
+blogsRouter.post("/blog/addblog", adminLoginMiddleware, BlogController.addblog);
 /**
  * @swagger
- * /api/addblog:
+ * /api/blog/addblog:
  *   post:
  *     summary: Add a new blog
  *     description: Add a new blog post.
@@ -71,7 +71,7 @@ blogsRouter.post("/addblog", adminLoginMiddleware, BlogController.addblog);
  *         description: Internal Server Error.
  */
 // Add comment to a blog
-blogsRouter.post("/blog/:id/comment", adminLoginMiddleware, userLoginMiddleware, BlogController.addComment);
+blogsRouter.post("/blog/:id/comment", userLoginMiddleware, BlogController.addComment);
 /**
  * @swagger
  * /api/blog/{id}/comment:
@@ -113,7 +113,7 @@ blogsRouter.post("/blog/:id/comment", adminLoginMiddleware, userLoginMiddleware,
  *         description: Internal Server Error.
  */
 // Like to a blog
-blogsRouter.post("/blog/:id/like", adminLoginMiddleware, userLoginMiddleware, BlogController.likeBlog);
+blogsRouter.post("/blog/:id/like", userLoginMiddleware, BlogController.likeBlog);
 /**
  * @swagger
  * /api/blog/{id}/like:

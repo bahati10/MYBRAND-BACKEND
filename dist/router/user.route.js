@@ -113,7 +113,52 @@ usersRouter.post("/register", UserController.adduser);
  *       '500':
  *         description: Internal server error
  */
-usersRouter.post("/login", UserController.loginAdmin, UserController.loginUser);
+usersRouter.post("/login", UserController.loginUser);
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     summary: Login as a user
+ *     description: Login with email and password
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: User's email address
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *             required:
+ *               - email
+ *               - password
+ *     responses:
+ *       '200':
+ *         description: Logged in successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Success message
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for authentication
+ *       '400':
+ *         description: Bad request, check your input data
+ *       '401':
+ *         description: Unauthorized, invalid credentials
+ *       '500':
+ *         description: Internal server error
+ */
+usersRouter.post("/admin/login", UserController.loginAdmin);
 /**
  * @swagger
  * /api/login:

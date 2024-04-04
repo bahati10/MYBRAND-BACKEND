@@ -79,9 +79,6 @@ class blogController {
         }
     };
     
-
-
-    
     
 
     //get all blogs
