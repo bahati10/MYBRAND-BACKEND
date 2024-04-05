@@ -161,9 +161,9 @@ usersRouter.post("/login", UserController.loginUser);
 usersRouter.post("/admin/login", UserController.loginAdmin);
 /**
  * @swagger
- * /api/login:
+ * /api/admin/login:
  *   post:
- *     summary: Login as a user
+ *     summary: Login as an admin
  *     description: Login with email and password
  *     tags: [Users]
  *     requestBody:
@@ -175,10 +175,10 @@ usersRouter.post("/admin/login", UserController.loginAdmin);
  *             properties:
  *               email:
  *                 type: string
- *                 description: User's email address
+ *                 description: Admin's email address
  *               password:
  *                 type: string
- *                 description: User's password
+ *                 description: Admin's password
  *             required:
  *               - email
  *               - password
