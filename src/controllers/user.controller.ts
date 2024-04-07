@@ -55,7 +55,7 @@ class userController {
             const { email, password } = req.body;
             const user = await userServices.loginUser(email, password);
             if (typeof user === 'string') {
-                res.status(401).json({ message: user });
+                res.status(401).json({ error: "User Not Found" });
             } else {
                 const token = jwt.sign(
                     { userId: user._id, email: user.email, firstname: user.firstname }, process.env.JWT_SECRET || '',

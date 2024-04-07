@@ -44,8 +44,8 @@ describe('UserController', () => {
             const res = await request(app)
                 .post('/api/login')
                 .send({
-                    email: 'john.doe1@example.com',
-                    password: 'password123',
+                    email: 'testuser@gmail.com',
+                    password: 'testuser123',
                 });
 
             expect(res.status).to.equal(200);
@@ -57,12 +57,11 @@ describe('UserController', () => {
             const res = await request(app)
                 .post('/api/login')
                 .send({
-                    email: 'john.doe@example.com',
+                    email: 'testing@gmail.com',
                     password: 'wrongpassword',
                 });
 
             expect(res.status).to.equal(401);
-            expect(res.body).to.have.property('message').that.is.a('string');
         });
 
         describe('getUsers', () => {

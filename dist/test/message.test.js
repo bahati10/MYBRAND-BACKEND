@@ -86,7 +86,11 @@ describe('BlogController', () => {
     describe('addPost', () => {
         it('should add a post successfully', async () => {
             const messageData = {
+<<<<<<< HEAD
                 image: 'Test content.url',
+=======
+                image: 'https://images.unsplash.com/photo-1713036610632-8bd70bcfe597?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNnx8fGVufDB8fHx8fA%3D%3D',
+>>>>>>> 361cab4 (Circle CI setup)
                 title: 'Test contentTest content',
                 subtitle: 'Test contentTest contentTest content',
                 content: 'Test content',
@@ -101,3 +105,11 @@ describe('BlogController', () => {
         });
     });
 });
+<<<<<<< HEAD
+=======
+after(async function () {
+    const res = await request(app)
+        .post('/api/blog/66056563021ca1042671ada8/like')
+        .set('Authorization', `Bearer ${authTokenUser}`);
+});
+>>>>>>> 361cab4 (Circle CI setup)

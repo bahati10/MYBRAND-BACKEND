@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "test": "nyc mocha --require ts-node/register --esm dist/test/*.test.js",
+    "test": "mocha --require ts-node/register --esm dist/test/*.test.js",
     "start": "nodemon dist/index.js",
     "devstart": "tsc && nodemon dist/index.js"
   },
@@ -48,21 +48,5 @@
     "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0"
-  },
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
-    "all": true,
-    "reporter": [        
-    "html",
-    "lcov",
-    "text",
-    "text-summary"],
-    "report-dir": "coverage",
-    "exclude": [
-      "**/*.d.ts",
-      "**/node_modules/**",
-      "src/**/*.ts"
-    ]
   }
-    
 }

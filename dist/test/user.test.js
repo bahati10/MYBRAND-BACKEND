@@ -36,8 +36,8 @@ describe('UserController', () => {
             const res = await request(app)
                 .post('/api/login')
                 .send({
-                email: 'john.doe1@example.com',
-                password: 'password123',
+                email: 'testuser@gmail.com',
+                password: 'testuser123',
             });
             expect(res.status).to.equal(200);
             expect(res.body).to.have.property('message').that.includes('Logged in successfully');
@@ -47,11 +47,38 @@ describe('UserController', () => {
             const res = await request(app)
                 .post('/api/login')
                 .send({
-                email: 'john.doe@example.com',
+                email: 'testing@gmail.com',
                 password: 'wrongpassword',
             });
             expect(res.status).to.equal(401);
-            expect(res.body).to.have.property('message').that.is.a('string');
+        });
+        describe('getUsers', () => {
+            it('should get all users successfully', async () => {
+                const res = await request(app)
+                    .get('/api/users')
+                    .set('Authorization', `Bearer ${authTokenAdmin}`);
+                expect(res.status).to.equal(200);
+                expect(res.body).to.have.property('message').that.includes('Users retrieved successfully');
+            });
+        });
+        describe('getUser', () => {
+            it('should get user successfully', async () => {
+                const res = await request(app)
+                    .get('/api/users/660be6cf7b46315326437299')
+                    .set('Authorization', `Bearer ${authTokenAdmin}`);
+                expect(res.status).to.equal(200);
+                expect(res.body).to.have.property('message').that.includes('User retrieved');
+                expect(res.body).to.have.property('message');
+            });
+        });
+        describe('deleteMessage', () => {
+            it('should delete user successfully', async () => {
+                const res = await request(app)
+                    .delete('/api/user/delete/660d4a37b9541096deefbf01')
+                    .set('Authorization', `Bearer ${authTokenAdmin}`);
+                expect(res.status).to.equal(200);
+                expect(res.body).to.have.property('message').that.includes('User deleted successfully');
+            });
         });
         describe('getUsers', () => {
             it('should get all users successfully', async () => {

@@ -60,7 +60,7 @@ messagesRouter.post("/send", MessageController.sendmessage);
  *       '500':
  *         description: Internal Server Error.
  */
-messagesRouter.get("/messages", adminLoginMiddleware, MessageController.getMessages);
+messagesRouter.get("/messages", MessageController.getMessages);
 /**
  * @swagger
  * /api/messages:
