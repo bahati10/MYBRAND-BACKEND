@@ -2,10 +2,27 @@
 import { Schema, model, } from 'mongoose';
 import Joi from 'joi';
 export const UserschemaValidate = Joi.object({
-    firstname: Joi.string().required(),
-    lastname: Joi.string().required(),
-    email: Joi.string().required(),
-    password: Joi.string().required().min(8),
+    firstname: Joi.string().regex(/^[a-zA-Z]+$/).required().messages({
+        'string.empty': 'First name is required.',
+        'string.pattern.base': 'First name must contain only letters.',
+        'any.required': 'First name is required.'
+    }),
+    lastname: Joi.string().regex(/^[a-zA-Z]+$/).required().messages({
+        'string.empty': 'Last name is required.',
+        'string.pattern.base': 'Last name must contain only letters.',
+        'any.required': 'Last name is required.'
+    }),
+    email: Joi.string().email().required().messages({
+        'string.email': 'Invalid email format.',
+        'string.empty': 'Email is required.',
+        'any.required': 'Email is required.'
+    }),
+    password: Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])')).required().min(8).messages({
+        'string.empty': 'Password is required.',
+        'string.min': 'Password must be at least {#limit} characters long.',
+        'string.pattern.base': 'Password must contain at least one lowercase letter, one uppercase letter, one digit and be at least 8 characters long.',
+        'any.required': 'Password is required.'
+    }),
     isAdmin: Joi.boolean()
 });
 //Userschema

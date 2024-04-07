@@ -51,6 +51,7 @@ export const blogsRouter = express.Router()
 //add a blog
 blogsRouter.post("/blog/addblog", adminLoginMiddleware, BlogController.addblog)
 
+
 /**
  * @swagger
  * /api/blog/addblog:

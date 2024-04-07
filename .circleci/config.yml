@@ -1,39 +1,41 @@
 version: 2.1
 jobs:
-  say-hello:
+  build:
     docker:
-      - image: cimg/base:current
+      - image: cimg/node:21.7.2-browsers
 
     steps:
-      # Checkout the code as the first step.
       - checkout
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: yarn
       - run:
           name: Build app
           command: yarn build
 
   store_test_results:
     docker:
-      - image: cimg/base:current
+      - image: cimg/node:21.7.2-browsers
 
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/project
       - run:
-          name: Run tests
+          name: Install Dependencies
+          command: yarn
+      - run:
+          name: Run Tests
           command: yarn test
+      - store_test_results:
+          path: ~/project/test-results
+          destination: test-results
 
-# Orchestrate jobs using workflows
 workflows:
-  project-workflow: # This is the name of the workflow, feel free to change it to better match your workflow.
+  build_and_test:
     jobs:
-      - say-hello
+      - build
       - store_test_results:
           requires:
-            - say-hello
+            - build

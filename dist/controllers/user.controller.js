@@ -44,7 +44,7 @@ class userController {
             const { email, password } = req.body;
             const user = await userServices.loginUser(email, password);
             if (typeof user === 'string') {
-                res.status(401).json({ message: user });
+                res.status(401).json({ error: "User Not Found" });
             }
             else {
                 const token = jwt.sign({ userId: user._id, email: user.email, firstname: user.firstname }, process.env.JWT_SECRET || '', { expiresIn: process.env.EXPIRATION_TIME });
@@ -75,14 +75,14 @@ class userController {
     //get all users
     getUsers = async (req, res) => {
         const users = await userServices.getUsers();
-        res.json({ msg: users });
+        res.json({ message: "Users retrieved successfully", users });
     };
     //get a single user
     getAUser = async (req, res) => {
         //get id from the parameter
         const id = req.params.id;
         const user = await userServices.getUser(id);
-        res.json({ message: `User with id ${id} retrieved`, user });
+        res.json({ message: `User retrieved`, user });
     };
     //update user
     updateUser = async (req, res) => {
@@ -94,7 +94,7 @@ class userController {
     deleteUser = async (req, res) => {
         const id = req.params.id;
         await userServices.deleteUser(id);
-        res.json({ msg: 'User deleted successfully' });
+        res.json({ message: 'User deleted successfully' });
     };
 }
 //export class

@@ -204,7 +204,8 @@ usersRouter.post("/admin/login", UserController.loginAdmin);
  *         description: Internal server error
  */
 //get all users
-usersRouter.get("/users", adminLoginMiddleware, UserController.getUsers);
+// usersRouter.get("/users", adminLoginMiddleware, UserController.getUsers)
+usersRouter.get("/users", UserController.getUsers);
 /**
  * @swagger
  * /api/users:

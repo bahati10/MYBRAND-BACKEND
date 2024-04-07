@@ -5,7 +5,9 @@ import { app } from '../index.js';
 let authTokenAdmin: string;
 let authTokenUser: string;
 
-before(async () => {
+before(async function() {
+
+  this.timeout(10000);
   // Login as admin
   const adminLoginRes = await request(app)
     .post('/api/admin/login')

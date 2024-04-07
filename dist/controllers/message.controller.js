@@ -12,7 +12,7 @@ class messageController {
         };
         const { error, value } = MessageschemaValidate.validate(data);
         if (error) {
-            res.json({ message: error });
+            res.status(400).json({ error: error.details[0].message });
         }
         else {
             const themessage = await messageServices.sendMessage(value);

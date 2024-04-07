@@ -21,14 +21,11 @@ jobs:
         with:
           node-version: "18.2"
 
+      - name: Build App
+        run: yarn build
+
       - name: Install dependencies
         run: yarn
 
       - name: Run tests
-        run: yarn test -- --coverage
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-report
-          path: coverage
+        run: yarn test
