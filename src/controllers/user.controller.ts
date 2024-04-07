@@ -93,7 +93,7 @@ class userController {
     //get all users
     getUsers = async (req: Request, res: Response) => {
         const users = await userServices.getUsers()
-        res.json({msg: users })
+        res.json({message: "Users retrieved successfully", users })
     }
 
 
@@ -102,7 +102,7 @@ class userController {
         //get id from the parameter
         const id = req.params.id
         const user = await userServices.getUser(id)
-        res.json({ message: `User with id ${id} retrieved`, user })
+        res.json({ message: `User retrieved`, user })
     }
 
     //update user
@@ -117,7 +117,7 @@ class userController {
     deleteUser = async (req: Request, res: Response) => {
         const id = req.params.id
         await userServices.deleteUser(id)
-        res.json({ msg: 'User deleted successfully' })
+        res.json({ message: 'User deleted successfully' })
     }
 
 }
