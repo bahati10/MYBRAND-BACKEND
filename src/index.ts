@@ -15,9 +15,18 @@ dotenv.config();
 export const app = express()
 const port = process.env.PORT
 
-app.use(cors({
-    origin: "https://mybrand-backend-2-hey7.onrender.com"
-  }));
+// app.use(cors({
+//   origin: ["https://mybrand-backend-2-hey7.onrender.com", "http://127.0.0.1:5500"]
+// }));
+
+app.use(
+    cors({
+        origin: "*",
+        credentials: true,
+        
+    })
+)
+
 
 const specs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
