@@ -205,7 +205,7 @@ usersRouter.post("/admin/login", UserController.loginAdmin);
  */
 //get all users
 // usersRouter.get("/users", adminLoginMiddleware, UserController.getUsers)
-usersRouter.get("/users", UserController.getUsers);
+usersRouter.get("/users", adminLoginMiddleware, UserController.getUsers);
 /**
  * @swagger
  * /api/users:

@@ -27,6 +27,9 @@ export class blogService {
     //get a single blog
     async getBlog(id) {
         try {
+            if (!id) {
+                throw new Error('Invalid blog ID');
+            }
             const blog = await Blog.findById({ _id: id });
             if (!blog) {
                 return 'blog not available';

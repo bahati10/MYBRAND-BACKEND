@@ -22,6 +22,7 @@ interface IBlogs {
     comments: {
         user: string;
         content: string;
+        createdAt: Date;
     }[];
 }
 
@@ -57,6 +58,10 @@ const blogSchema = new Schema<IBlogs>({
             {
                 user: String,
                 content: String,
+                createdAt: {
+                    type: Date,
+                    default: Date.now
+                }
             },
         ],
         default: [],
