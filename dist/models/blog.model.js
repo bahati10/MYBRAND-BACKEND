@@ -6,6 +6,7 @@ export const BlogschemaValidate = Joi.object({
     title: Joi.string().required(),
     subtitle: Joi.string().required(),
     content: Joi.string().required(),
+    createdAt: Joi.date().default(Date.now)
 });
 //Blogschema
 const blogSchema = new Schema({
@@ -42,6 +43,10 @@ const blogSchema = new Schema({
         ],
         default: [],
     },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 });
 //creating a model
 export const Blog = model('Blog', blogSchema);

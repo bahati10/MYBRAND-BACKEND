@@ -16,9 +16,8 @@ class blogController {
         }
         const {error, value} = BlogschemaValidate.validate(data)
 
-        if(error){
-            res.json({ message: error })
-
+        if (error) {
+            res.status(400).json({ error: error.details[0].message });
         }else{
             const blog = await blogServices.createBlog(value)
             res.status(201).json({ message: "Blog Added successfully: ", blog })          

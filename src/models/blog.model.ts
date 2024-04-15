@@ -1,12 +1,13 @@
 //importing modules
-import  {Schema, model,} from 'mongoose'
-import Joi, { array } from 'joi'
+import  {Date, Schema, model,} from 'mongoose'
+import Joi from 'joi'
 
 export const BlogschemaValidate = Joi.object({
     image: Joi.string().required(),
     title: Joi.string().required(),
     subtitle: Joi.string().required(),
     content: Joi.string().required(),
+    createdAt: Joi.date().default(Date.now)
 })
 
 //creating an interface 
@@ -16,6 +17,7 @@ interface IBlogs {
     subtitle: string,
     author: string,
     content: string,
+    createdAt: Date,
     likes: string[];
     comments: {
         user: string;
@@ -59,6 +61,10 @@ const blogSchema = new Schema<IBlogs>({
         ],
         default: [],
     },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 //creating a model

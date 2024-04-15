@@ -15,11 +15,10 @@ class messageController {
             message: req.body.message,
         }
         const {error, value} = MessageschemaValidate.validate(data)
-
-        if(error){
-            res.json({ message: error })
-
-        }else{
+        
+        if (error) {
+            res.status(400).json({ error: error.details[0].message });
+        } else {
             const themessage = await messageServices.sendMessage(value)
             res.status(201).json({ message: "Message Sent successfully: ", themessage })          
         }
