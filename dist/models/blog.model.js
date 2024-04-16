@@ -39,6 +39,10 @@ const blogSchema = new Schema({
             {
                 user: String,
                 content: String,
+                createdAt: {
+                    type: Date,
+                    default: Date.now
+                }
             },
         ],
         default: [],
