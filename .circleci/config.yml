@@ -51,8 +51,4 @@ workflows:
             - build
       - deploy:
           requires:
-            - store_test_results
-          filters:
-            branches:
-              only:
-                - main
+            - build
