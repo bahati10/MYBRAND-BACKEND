@@ -132,7 +132,6 @@ after(async function() {
   const res = await request(app)
   .post('/api/blog/661d03f10464de26852c9897/like')
   .set('Authorization', `Bearer ${authTokenUser}`);
-  process.exit()
 })
 
 
