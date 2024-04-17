@@ -21,6 +21,11 @@ before(async function() {
   authTokenUser = userLoginRes.body.token;
 });
 
+after(function() {
+  process.exit()
+})
+
+
 describe('MessageController', () => {
   describe('sendmessage', () => {
     it('should send a message successfully', async () => {
@@ -127,7 +132,6 @@ after(async function() {
   const res = await request(app)
   .post('/api/blog/66056563021ca1042671ada8/like')
   .set('Authorization', `Bearer ${authTokenUser}`);
-  process.exit()
 })
 
 
