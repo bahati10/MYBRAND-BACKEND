@@ -21,6 +21,10 @@ before(async function() {
         authTokenUser = userLoginRes.body.token;
       });
 
+after(function() {
+  process.exit()
+})
+
 
 describe('UserController', () => {
 
