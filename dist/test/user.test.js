@@ -16,6 +16,9 @@ before(async function () {
         .send({ email: 'testuser@gmail.com', password: 'testuser123' });
     authTokenUser = userLoginRes.body.token;
 });
+after(function () {
+    process.exit();
+});
 describe('UserController', () => {
     // describe('adduser', () => {
     //     it('should add a new user', async () => {
