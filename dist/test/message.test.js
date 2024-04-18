@@ -16,6 +16,9 @@ before(async function () {
         .send({ email: 'testuser@gmail.com', password: 'testuser123' });
     authTokenUser = userLoginRes.body.token;
 });
+after(function () {
+    process.exit();
+});
 describe('MessageController', () => {
     describe('sendmessage', () => {
         it('should send a message successfully', async () => {

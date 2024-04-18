@@ -15,8 +15,11 @@ const port = process.env.PORT;
 //   origin: ["https://mybrand-backend-2-hey7.onrender.com", "http://127.0.0.1:5500"]
 // }));
 app.use(cors({
-    origin: "*",
-    credentials: true,
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Authorization'],
+    credentials: true
 }));
 const specs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
