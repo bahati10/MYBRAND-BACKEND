@@ -1,7 +1,16 @@
 //import modules
 import { Request, Response } from 'express'
+import nodemailer from 'nodemailer';
 import { messageServices } from '../services/message.service.js';
 import { MessageschemaValidate } from '../models/message.model.js';
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'bahatiyves100@gmail.com',
+      pass: 'cqwosdaeffrmkpol'
+    }
+  });
 
 class messageController {
 
@@ -20,6 +29,15 @@ class messageController {
             res.status(400).json({ error: error.details[0].message });
         } else {
             const themessage = await messageServices.sendMessage(value)
+
+            const senderEmail = req.body.email;
+                    // Send email notification
+            await transporter.sendMail({
+                from: senderEmail,
+                to: 'bahatiyves100@gmail.com',
+                subject: `New message received from ${data.firstname} ${data.lastname}`,
+                text: `Message: ${data.message}`
+          });
             res.status(201).json({ message: "Message Sent successfully: ", themessage })          
         }
         
