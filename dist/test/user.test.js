@@ -8,16 +8,13 @@ before(async function () {
     // Login as admin
     const adminLoginRes = await request(app)
         .post('/api/admin/login')
-        .send({ email: 'admin@gmail.com', password: 'admin123' });
+        .send({ email: 'admin@gmail.com', password: 'Admin123' });
     authTokenAdmin = adminLoginRes.body.token;
     // Login as user
     const userLoginRes = await request(app)
         .post('/api/login')
         .send({ email: 'testuser@gmail.com', password: 'testuser123' });
     authTokenUser = userLoginRes.body.token;
-});
-after(function () {
-    process.exit();
 });
 describe('UserController', () => {
     // describe('adduser', () => {
@@ -84,4 +81,7 @@ describe('UserController', () => {
             });
         });
     });
+});
+after(function () {
+    process.exit();
 });
