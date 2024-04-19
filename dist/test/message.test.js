@@ -8,7 +8,7 @@ before(async function () {
     // Login as admin
     const adminLoginRes = await request(app)
         .post('/api/admin/login')
-        .send({ email: 'admin@gmail.com', password: 'admin123' });
+        .send({ email: 'admin@gmail.com', password: 'Admin123' });
     authTokenAdmin = adminLoginRes.body.token;
     // Login as user
     const userLoginRes = await request(app)
@@ -70,7 +70,7 @@ describe('BlogController', () => {
     describe('addComment', () => {
         it('should add a comment to a blog successfully', async () => {
             const res = await request(app)
-                .post('/api/blog/66056563021ca1042671ada8/comment')
+                .post('/api/blog/661d03f10464de26852c9897/comment')
                 .send({ content: 'Test Comment Content' })
                 .set('Authorization', `Bearer ${authTokenUser}`);
             expect(res.status).to.equal(200);
@@ -80,7 +80,7 @@ describe('BlogController', () => {
     describe('likeBlog', () => {
         it('should like a blog successfully', async () => {
             const res = await request(app)
-                .post('/api/blog/66056563021ca1042671ada8/like')
+                .post('/api/blog/661d03f10464de26852c9897/like')
                 .set('Authorization', `Bearer ${authTokenUser}`);
             expect(res.status).to.equal(200);
             expect(res.body).to.have.property('message').that.includes('Blog liked successfully');
@@ -106,6 +106,6 @@ describe('BlogController', () => {
 });
 after(async function () {
     const res = await request(app)
-        .post('/api/blog/66056563021ca1042671ada8/like')
+        .post('/api/blog/661d03f10464de26852c9897/like')
         .set('Authorization', `Bearer ${authTokenUser}`);
 });
