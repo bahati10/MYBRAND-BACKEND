@@ -61,10 +61,6 @@ async createUser(data: any) {
                 if (!user) {
                     return 'User not found';
                 }
-
-                if (user.email === "admin@email.com") {
-                    console.log("Admin user logged in");
-                }
             
                 const isPasswordMatch = await bcrypt.compare(password, user.password);
                 if (!isPasswordMatch) {
