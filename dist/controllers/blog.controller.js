@@ -1,5 +1,7 @@
 import { Blog, BlogschemaValidate } from '../models/blog.model.js';
 import { blogServices } from '../services/blogs.service.js';
+import { Subscriber } from '../models/subscribe.model.js';
+import sendNewsletter from '../utils/nodemail.js';
 class blogController {
     //add blog controller
     addblog = async (req, res) => {
@@ -16,6 +18,29 @@ class blogController {
         }
         else {
             const blog = await blogServices.createBlog(value);
+            if (!blog) {
+                return res.status(500).json({ message: "Error adding blog", error: "Blog is undefined" });
+            }
+            const words = blog.content.split(' ');
+            const excerpt = words.slice(0, 20).join(' ');
+            const truncatedContent = words.length > 20 ? excerpt + '...' : excerpt;
+            const subscribers = await Subscriber.find({});
+            const blogLink = `https://yourblog.com/blog/${blog._id}`;
+            const emailSubject = 'New Blog Alert!';
+            const emailContent = `
+                    <p>Dear Subscriber,</p>
+                    <p>We've just published a new blog that you might find interesting:</p>
+                    <p>Title: ${blog.title}</p>
+                    <p>Subtitle: ${blog.subtitle}</p>
+                    <p>Subtitle: ${truncatedContent}</p>
+                    <p>You can read the full blog <a href="${blogLink}">here</a>.</p>
+                    <p>Stay tuned for more exciting content!</p>
+                    <p>Best regards,</p>
+                    <p>Your Blog Team</p>
+                `;
+            for (const subscriber of subscribers) {
+                sendNewsletter(subscriber.email, emailSubject, emailContent);
+            }
             res.status(201).json({ message: "Blog Added successfully: ", blog });
         }
     };
