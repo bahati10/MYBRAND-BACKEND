@@ -8,6 +8,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import swaggerOptions from './swagger.js';
 import cors from 'cors';
+import { subscribersRouter } from './router/subscribe.route.js';
 
 
 dotenv.config();
@@ -38,7 +39,7 @@ app.use(express.urlencoded({extended: true}))
 
 
 //routes
-app.use("/api", usersRouter, messagesRouter, blogsRouter)
+app.use("/api", usersRouter, messagesRouter, blogsRouter, subscribersRouter)
 db.then(() => {
     app.listen(port, () => console.log(`Server started at http://localhost:${port}`))
     
