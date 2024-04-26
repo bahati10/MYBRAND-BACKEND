@@ -7,8 +7,8 @@ import { MessageschemaValidate } from '../models/message.model.js';
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'bahatiyves100@gmail.com',
-      pass: 'cqwosdaeffrmkpol'
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
     }
   });
 
@@ -34,7 +34,7 @@ class messageController {
                     // Send email notification
             await transporter.sendMail({
                 from: senderEmail,
-                to: 'bahatiyves100@gmail.com',
+                to: 'bahatiyves10@gmail.com',
                 subject: `New message received from ${data.firstname} ${data.lastname}`,
                 text: `Message: ${data.message}`
           });
